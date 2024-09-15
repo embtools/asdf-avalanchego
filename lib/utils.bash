@@ -3,9 +3,9 @@
 set -euo pipefail
 
 # TODO: Ensure this is the correct GitHub homepage where releases can be downloaded for avalanche-cli.
-GH_REPO="https://github.com/ava-labs/avalanche-cli"
-TOOL_NAME="avalanche-cli"
-TOOL_TEST="avalanche --version"
+GH_REPO="https://github.com/ava-labs/avalanchego"
+TOOL_NAME="avalanchego"
+TOOL_TEST="avalanchego --version"
 
 fail() {
 	echo -e "asdf-$TOOL_NAME: $*"
@@ -49,11 +49,18 @@ download_release() {
     		x86_64) arch="amd64" ;;
     		arm)    dpkg --print-arch | grep -q "arm64" && arch="arm64" || arch="arm" ;;
 	esac
-	os="linux"
-	if [[ -n "$(uname -a | grep Darwin)" ]]; then
-		os="darwin"
+	if [[ -n "$arch" ]]; then
+		arch="${arch}-"
 	fi
-	url="$GH_REPO/releases/download/v${version}/avalanche-cli_${version}_${os}_${arch}.tar.gz"
+	os="linux"
+	ext="tar.gz"
+	if [[ -n "$(uname -a | grep Darwin)" ]]; then
+		os="macos"
+		ext="zip"
+		arch=""
+	fi
+	
+	url="$GH_REPO/releases/download/v${version}/avalanchego-${os}-${arch}v${version}.${ext}"
 
 	echo "* Downloading $TOOL_NAME release $version"
 	curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
