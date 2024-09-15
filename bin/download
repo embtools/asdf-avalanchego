@@ -15,7 +15,7 @@ ext="tar.gz"
 if uname -a | grep -i darwin >& /dev/null; then
 	ext="zip"
 fi
-release_file="$ASDF_DOWNLOAD_PATH/$TOOL_NAME-$ASDF_INSTALL_VERSION.zip"
+release_file="$ASDF_DOWNLOAD_PATH/$TOOL_NAME-$ASDF_INSTALL_VERSION.$ext"
 
 # Download tar.gz file to the download directory
 download_release "$ASDF_INSTALL_VERSION" "$release_file"
@@ -25,7 +25,7 @@ if [[ "$ext" == "zip" ]]; then
 	mv "$ASDF_DOWNLOAD_PATH/build/avalanchego" "$ASDF_DOWNLOAD_PATH"
 	rm -rf "$ASDF_DOWNLOAD_PATH/build"
 else
-	tar -xzf "$release_file" -C "$ASDF_DOWNLOAD_PATH" --strip-components=0 avalanchego || fail "Could not extract $release_file"
+	tar -xzf "$release_file" -C "$ASDF_DOWNLOAD_PATH" --strip-components=1 avalanchego-v$ASDF_INSTALL_VERSION/avalanchego || fail "Could not extract $release_file"
 fi
 
 # Remove the tar.gz file since we don't need to keep it
