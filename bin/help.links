@@ -1,0 +1,8 @@
+#!/bin/bash
+helplinks() {
+	echo " 
+		Git Repository: https://github.com/ava-labs/avalanchego
+	"
+}
+
+helplinks

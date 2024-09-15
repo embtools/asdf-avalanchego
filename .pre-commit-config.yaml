@@ -1,0 +1,57 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+fail_fast: true
+repos:
+-   repo: local
+    hooks:
+    -   id: golangci-lint
+        name: Run golangci-lint
+        entry: golangci-lint run --allow-parallel-runners --new-from-rev=HEAD~ --fix
+        language: system
+        files: .*\.go$
+        pass_filenames: false
+        always_run: false
+    -   id: gofumpt
+        name: Run gofumpt
+        entry: gofumpt -l -w
+        language: system
+        files: .*\.go$
+    -   id: gotidy
+        name: Run go tidy
+        entry: go mod tidy
+        language: system
+        files: .*\.go$
+        pass_filenames: false
+    -   id: gotest
+        name: Run go test
+        entry: go test ./... -failfast
+        language: system
+        files: .*\.go$
+        pass_filenames: false
+
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+    -   id: check-added-large-files
+    -   id: check-ast
+    -   id: check-docstring-first
+    -   id: check-executables-have-shebangs
+    -   id: check-json
+    -   id: check-merge-conflict
+    -   id: check-shebang-scripts-are-executable
+    -   id: check-symlinks
+    -   id: check-toml
+    -   id: check-symlinks
+    -   id: check-vcs-permalinks
+    -   id: check-yaml
+    -   id: debug-statements
+    -   id: detect-aws-credentials
+    -   id: detect-private-key
+    -   id: end-of-file-fixer
+    -   id: forbid-new-submodules
+    -   id: mixed-line-ending
+    -   id: name-tests-test
+    -   id: no-commit-to-branch
+    -   id: pretty-format-json
+    -   id: requirements-txt-fixer
+    -   id: trailing-whitespace
